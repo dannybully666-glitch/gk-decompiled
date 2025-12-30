@@ -263,407 +263,112 @@
 .end method
 
 .method public static c(Lcom/locnet/gamekeyboard/t;Landroid/view/MotionEvent;II)V
-    .locals 11
+    .locals 10
 
-    invoke-virtual {p1}, Landroid/view/MotionEvent;->getAction()I
-
+    invoke-virtual {p1}, Landroid/view/MotionEvent;->getActionMasked()I
     move-result v0
 
-    and-int/lit16 v1, v0, 0xff
-
+    const/4 v1, 0x0
     const/4 v2, 0x1
+    const/16 v3, 20   # deadzone
 
-    const/4 v3, 0x0
+    # ACTION_DOWN
+    if-eqz v0, :down
 
-    if-eqz v1, :cond_e
-
-    if-eq v1, v2, :cond_b
-
+    # ACTION_MOVE
     const/4 v4, 0x2
+    if-eq v0, v4, :move
 
-    if-eq v1, v4, :cond_2
-
+    # ACTION_UP / CANCEL
+    const/4 v4, 0x1
+    if-eq v0, v4, :up
     const/4 v4, 0x3
+    if-eq v0, v4, :up
 
-    if-eq v1, v4, :cond_b
+    return-void
 
-    const/4 v4, 0x5
-
-    const v5, 0xff00
-
-    if-eq v1, v4, :cond_1
-
-    const/4 v2, 0x6
-
-    if-eq v1, v2, :cond_0
-
-    invoke-virtual {p0}, Lcom/locnet/gamekeyboard/t;->M()Landroid/content/Context;
-
-    move-result-object p0
-
-    const-string p1, "Unknown"
-
-    invoke-static {p0, p1, v3}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
-
-    move-result-object p0
-
-    invoke-virtual {p0}, Landroid/widget/Toast;->show()V
-
-    goto/16 :goto_9
-
-    :cond_0
-    and-int/2addr v0, v5
-
-    shr-int/lit8 v0, v0, 0x8
-
-    invoke-virtual {p1, v0}, Landroid/view/MotionEvent;->getX(I)F
-
-    move-result v1
-
-    int-to-float p2, p2
-
-    add-float/2addr v1, p2
-
-    float-to-int p2, v1
-
-    invoke-virtual {p1, v0}, Landroid/view/MotionEvent;->getY(I)F
-
-    move-result p1
-
-    int-to-float p3, p3
-
-    add-float/2addr p1, p3
-
-    float-to-int p1, p1
-
-    invoke-static {p0, p2, p1, v3, v3}, Lcom/locnet/gamekeyboard/LatinKeyboardView;->d(Lcom/locnet/gamekeyboard/t;IIZZ)V
-
-    goto/16 :goto_9
-
-    :cond_1
-    and-int/2addr v0, v5
-
-    shr-int/lit8 v0, v0, 0x8
-
-    invoke-virtual {p1, v0}, Landroid/view/MotionEvent;->getX(I)F
-
-    move-result v1
-
-    int-to-float p2, p2
-
-    add-float/2addr v1, p2
-
-    float-to-int p2, v1
-
-    invoke-virtual {p1, v0}, Landroid/view/MotionEvent;->getY(I)F
-
-    move-result p1
-
-    goto/16 :goto_8
-
-    :cond_2
-    const/4 v0, 0x0
-
-    :goto_0
-    iget-object v1, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    array-length v4, v1
-
-    if-ge v0, v4, :cond_3
-
-    aget-object v4, v1, v0
-
-    aget-object v1, v1, v0
-
-    iget-boolean v1, v1, Lcom/locnet/gamekeyboard/g;->n:Z
-
-    const/4 v1, 0x1
-iput-boolean v1, v4, Lcom/locnet/gamekeyboard/g;->o:Z
-
-    add-int/lit8 v0, v0, 0x1
-
-    goto :goto_0
-
-    :cond_3
-    const/4 v0, 0x0
-
-    :goto_1
-    invoke-virtual {p1}, Landroid/view/MotionEvent;->getPointerCount()I
-
-    move-result v1
-
-    if-ge v0, v1, :cond_4
-
-    invoke-virtual {p1, v0}, Landroid/view/MotionEvent;->getX(I)F
-
-    move-result v1
-
-    int-to-float v4, p2
-
-    add-float/2addr v1, v4
-
-    float-to-int v1, v1
-
-    invoke-virtual {p1, v0}, Landroid/view/MotionEvent;->getY(I)F
-
-    move-result v4
-
-    int-to-float v5, p3
-
-    add-float/2addr v4, v5
-
-    float-to-int v4, v4
-
-    invoke-static {p0, v1, v4, v2, v2}, Lcom/locnet/gamekeyboard/LatinKeyboardView;->d(Lcom/locnet/gamekeyboard/t;IIZZ)V
-
-    add-int/lit8 v0, v0, 0x1
-
-    goto :goto_1
-
-    :cond_4
-    const/4 p1, 0x0
-
-    :goto_2
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    array-length p3, p2
-
-    if-ge p1, p3, :cond_7
-
-    aget-object p2, p2, p1
-
-    invoke-virtual {p2}, Lcom/locnet/gamekeyboard/g;->p()Z
-
-    move-result p2
-
-    if-eqz p2, :cond_5
-
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    aget-object p2, p2, p1
-
-    iget-boolean p2, p2, Lcom/locnet/gamekeyboard/g;->o:Z
-
-    if-nez p2, :cond_6
-
-    const/4 v6, 0x0
-
-    const/4 v7, 0x0
-
-    const/4 v8, 0x1
-
-    const/4 v9, 0x1
-
-    const/4 v10, 0x0
-
-    move-object v4, p0
-
-    move v5, p1
-
-    invoke-virtual/range {v4 .. v10}, Lcom/locnet/gamekeyboard/t;->Q(IIIZZZ)V
-
-    goto :goto_3
-
-    :cond_5
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    aget-object p3, p2, p1
-
-    iget p3, p3, Lcom/locnet/gamekeyboard/g;->c:I
-
-    if-eqz p3, :cond_6
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->p:Z
-
-    if-eqz p3, :cond_6
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->m:Z
-
-    if-eqz p3, :cond_6
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->o:Z
-
-    if-nez p3, :cond_6
-
-    aget-object p2, p2, p1
-
-    iget-boolean p2, p2, Lcom/locnet/gamekeyboard/g;->o:Z
-
-    nop
-
-    :cond_6
-    :goto_3
-    add-int/lit8 p1, p1, 0x1
-
-    goto :goto_2
-
-    :cond_7
-    const/4 p1, 0x0
-
-    :goto_4
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    array-length p3, p2
-
-    if-ge p1, p3, :cond_a
-
-    aget-object p2, p2, p1
-
-    invoke-virtual {p2}, Lcom/locnet/gamekeyboard/g;->p()Z
-
-    move-result p2
-
-    if-eqz p2, :cond_8
-
-    goto :goto_5
-
-    :cond_8
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    aget-object p3, p2, p1
-
-    iget p3, p3, Lcom/locnet/gamekeyboard/g;->c:I
-
-    if-eqz p3, :cond_9
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->p:Z
-
-    if-eqz p3, :cond_9
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->m:Z
-
-    if-nez p3, :cond_9
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->o:Z
-
-    if-eqz p3, :cond_9
-
-    aget-object p2, p2, p1
-
-    iget-boolean p2, p2, Lcom/locnet/gamekeyboard/g;->o:Z
-
-    nop
-
-    :cond_9
-    :goto_5
-    add-int/lit8 p1, p1, 0x1
-
-    goto :goto_4
-
-    :cond_a
-    const-wide/16 p0, 0x32
-
-    :try_start_0
-    invoke-static {p0, p1}, Ljava/lang/Thread;->sleep(J)V
-    :try_end_0
-    .catch Ljava/lang/InterruptedException; {:try_start_0 .. :try_end_0} :catch_0
-
-    goto :goto_9
-
-    :cond_b
-    const/4 p1, 0x0
-
-    :goto_6
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    array-length p3, p2
-
-    if-ge p1, p3, :cond_f
-
-    aget-object p2, p2, p1
-
-    invoke-virtual {p2}, Lcom/locnet/gamekeyboard/g;->p()Z
-
-    move-result p2
-
-    if-eqz p2, :cond_c
-
-    const/4 v6, 0x0
-
-    const/4 v7, 0x0
-
-    const/4 v8, 0x1
-
-    const/4 v9, 0x1
-
-    const/4 v10, 0x0
-
-    move-object v4, p0
-
-    move v5, p1
-
-    invoke-virtual/range {v4 .. v10}, Lcom/locnet/gamekeyboard/t;->Q(IIIZZZ)V
-
-    goto :goto_7
-
-    :cond_c
-    iget-object p2, p0, Lcom/locnet/gamekeyboard/t;->j0:[Lcom/locnet/gamekeyboard/g;
-
-    aget-object p3, p2, p1
-
-    iget p3, p3, Lcom/locnet/gamekeyboard/g;->c:I
-
-    if-eqz p3, :cond_d
-
-    aget-object p3, p2, p1
-
-    iget-boolean p3, p3, Lcom/locnet/gamekeyboard/g;->p:Z
-
-    if-eqz p3, :cond_d
-
-    aget-object p2, p2, p1
-
-    iget-boolean p2, p2, Lcom/locnet/gamekeyboard/g;->m:Z
-
-    if-eqz p2, :cond_d
-
-    invoke-virtual {p0, p1, v3, v3, v3}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
-
-    :cond_d
-    :goto_7
-    add-int/lit8 p1, p1, 0x1
-
-    goto :goto_6
-
-    :cond_e
+    # --------------------
+    :down
     invoke-virtual {p1}, Landroid/view/MotionEvent;->getX()F
-
-    move-result v0
-
-    int-to-float p2, p2
-
-    add-float/2addr v0, p2
-
-    float-to-int p2, v0
+    move-result v4
+    int-to-float v5, p2
+    add-float/2addr v4, v5
+    float-to-int v4, v4
+    sput v4, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyStartX:I
 
     invoke-virtual {p1}, Landroid/view/MotionEvent;->getY()F
+    move-result v4
+    int-to-float v5, p3
+    add-float/2addr v4, v5
+    float-to-int v4, v4
+    sput v4, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyStartY:I
 
-    move-result p1
+    sput-boolean v2, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyActive:Z
+    return-void
 
-    :goto_8
-    int-to-float p3, p3
+    # --------------------
+    :move
+    sget-boolean v4, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyActive:Z
+    if-eqz v4, :ret
 
-    add-float/2addr p1, p3
+    invoke-virtual {p1}, Landroid/view/MotionEvent;->getX()F
+    move-result v4
+    int-to-float v5, p2
+    add-float/2addr v4, v5
+    float-to-int v4, v4
 
-    float-to-int p1, p1
+    invoke-virtual {p1}, Landroid/view/MotionEvent;->getY()F
+    move-result v5
+    int-to-float v6, p3
+    add-float/2addr v5, v6
+    float-to-int v5, v5
 
-    invoke-static {p0, p2, p1, v2, v3}, Lcom/locnet/gamekeyboard/LatinKeyboardView;->d(Lcom/locnet/gamekeyboard/t;IIZZ)V
+    sget v6, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyStartX:I
+    sub-int v7, v4, v6   # dx
 
-    :catch_0
-    :cond_f
-    :goto_9
+    sget v6, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyStartY:I
+    sub-int v8, v5, v6   # dy
+
+    # release all first
+    invoke-virtual {p0, v1, v1, v1, v1}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+
+    # horizontal
+    if-gt v7, v3, :right
+    neg-int v9, v3
+    if-lt v7, v9, :left
+
+    # vertical
+    if-gt v8, v3, :down_dir
+    if-lt v8, v9, :up_dir
+
+    goto :ret
+
+    :right
+    const/4 v4, 0x6
+    invoke-virtual {p0, v4, v2, v1, v1}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+    goto :ret
+
+    :left
+    const/4 v4, 0x5
+    invoke-virtual {p0, v4, v2, v1, v1}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+    goto :ret
+
+    :down_dir
+    const/4 v4, 0x8
+    invoke-virtual {p0, v4, v2, v1, v1}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+    goto :ret
+
+    :up_dir
+    const/4 v4, 0x7
+    invoke-virtual {p0, v4, v2, v1, v1}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+    goto :ret
+
+    # --------------------
+    :up
+    sput-boolean v1, Lcom/locnet/gamekeyboard/LatinKeyboardView;->joyActive:Z
+    invoke-virtual {p0, v1, v1, v1, v1}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+
+    :ret
     return-void
 .end method
 
