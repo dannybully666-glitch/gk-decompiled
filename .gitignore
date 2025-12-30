@@ -1,0 +1,10 @@
+# Build outputs
+dist/
+*.apk
+
+# Signing keys
+*.jks
+*.keystore
+
+# Android junk
+META-INF/
