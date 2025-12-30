@@ -495,7 +495,7 @@ iput-boolean v1, v4, Lcom/locnet/gamekeyboard/g;->o:Z
 
     iget-boolean p2, p2, Lcom/locnet/gamekeyboard/g;->o:Z
 
-    invoke-virtual {p0, p1, p2, v3, v3}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+    nop
 
     :cond_6
     :goto_3
@@ -554,7 +554,7 @@ iput-boolean v1, v4, Lcom/locnet/gamekeyboard/g;->o:Z
 
     iget-boolean p2, p2, Lcom/locnet/gamekeyboard/g;->o:Z
 
-    invoke-virtual {p0, p1, p2, v3, v3}, Lcom/locnet/gamekeyboard/t;->T(IZZZ)V
+    nop
 
     :cond_9
     :goto_5
