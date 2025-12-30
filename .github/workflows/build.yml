@@ -1,8 +1,8 @@
-name: Build APK
+name: Build APK (unsigned)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -13,37 +13,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # ----------------------------
-      # Install apktool (OFFICIAL WAY)
-      # ----------------------------
       - name: Install apktool
         run: |
-          wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
-          wget https://github.com/iBotPeaches/Apktool/releases/download/v2.10.0/apktool_2.10.0.jar
-          chmod +x apktool
-          sudo mv apktool /usr/local/bin/
-          sudo mv apktool_2.10.0.jar /usr/local/bin/apktool.jar
-          apktool --version
+          sudo apt update
+          sudo apt install -y apktool
 
-      # ----------------------------
-      # Build APK
-      # ----------------------------
-      - name: Build APK
+      - name: Verify apktool
+        run: apktool --version
+
+      - name: Build unsigned APK
         run: |
-          ls
-          apktool b . -o rebuilt.apk
+          apktool b . -o gk-unsigned.apk
 
-      # ----------------------------
-      # Upload APK
-      # ----------------------------
-      - name: Upload APK artifact
+      - name: Upload unsigned APK
         uses: actions/upload-artifact@v4
         with:
-          name: rebuilt-apk
-          path: rebuilt.apk
+          name: gk-unsigned
+          path: gk-unsigned.apk
