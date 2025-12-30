@@ -377,7 +377,8 @@
 
     iget-boolean v1, v1, Lcom/locnet/gamekeyboard/g;->n:Z
 
-    iput-boolean v1, v4, Lcom/locnet/gamekeyboard/g;->o:Z
+    const/4 v1, 0x1
+iput-boolean v1, v4, Lcom/locnet/gamekeyboard/g;->o:Z
 
     add-int/lit8 v0, v0, 0x1
 
