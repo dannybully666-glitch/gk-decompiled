@@ -1,14 +1,13 @@
-name: Build APK (apktool)
+name: Build APK
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
@@ -20,17 +19,31 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      # ----------------------------
+      # Install apktool (OFFICIAL WAY)
+      # ----------------------------
       - name: Install apktool
         run: |
-          sudo apt update
-          sudo apt install -y apktool
+          wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+          wget https://github.com/iBotPeaches/Apktool/releases/download/v2.10.0/apktool_2.10.0.jar
+          chmod +x apktool
+          sudo mv apktool /usr/local/bin/
+          sudo mv apktool_2.10.0.jar /usr/local/bin/apktool.jar
+          apktool --version
 
+      # ----------------------------
+      # Build APK
+      # ----------------------------
       - name: Build APK
         run: |
-          apktool b . -o gk-unsigned.apk
+          ls
+          apktool b . -o rebuilt.apk
 
+      # ----------------------------
+      # Upload APK
+      # ----------------------------
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gk-unsigned-apk
-          path: gk-unsigned.apk
+          name: rebuilt-apk
+          path: rebuilt.apk
