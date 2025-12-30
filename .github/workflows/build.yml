@@ -1,0 +1,36 @@
+name: Build APK (apktool)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install apktool
+        run: |
+          sudo apt update
+          sudo apt install -y apktool
+
+      - name: Build APK
+        run: |
+          apktool b . -o gk-unsigned.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gk-unsigned-apk
+          path: gk-unsigned.apk
