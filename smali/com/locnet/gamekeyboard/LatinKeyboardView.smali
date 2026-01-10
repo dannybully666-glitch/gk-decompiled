@@ -413,7 +413,11 @@
 
     float-to-int v4, v4
 
-    invoke-static {p0, v1, v4, v2, v2}, Lcom/locnet/gamekeyboard/LatinKeyboardView;->d(Lcom/locnet/gamekeyboard/t;IIZZ)V
+    const/4 v2, 0x1
+const/4 v5, 0x0
+
+invoke-static {p0, v1, v4, v2, v5},
+Lcom/locnet/gamekeyboard/LatinKeyboardView;->d(Lcom/locnet/gamekeyboard/t;IIZZ)V
 
     add-int/lit8 v0, v0, 0x1
 
